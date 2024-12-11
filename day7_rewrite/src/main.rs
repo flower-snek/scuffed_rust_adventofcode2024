@@ -3,6 +3,8 @@ const INPUT: &str = include_str!("input.txt");
 // -------------------------------------------------
 //
 // rewrite of day 7 to use less .clone()s to see how efficient it is (3-4 ms! not bad!)
+// ( additional optimizations inspired by this solution on reddit:           )
+// ( https://www.reddit.com/r/adventofcode/comments/1h8l3z5/comment/m0wq0ta/ )
 //
 // -------------------------------------------------
 
@@ -11,8 +13,10 @@ fn main() {
 	use std::time::Instant;
     let now = Instant::now();
 
+	/*
 	let mut sum = 0;
 	let mut sum2 = 0;
+	
 	for i in INPUT.lines() {
 		let temp: Vec<&str> = i.split(": ").collect();
 		// println!("{}", temp.get(0).unwrap().parse::<usize>().unwrap());
@@ -28,11 +32,34 @@ fn main() {
 			sum2 += target;
 		}
 	}
-    println!("Part A: {}", sum);
-    println!("Part B: {}", sum2);
+	*/
+	let sum = INPUT.lines().filter_map(|line| {
+		let (target, nums) = line.split_once(": ")?;
+		let target = target.parse::<usize>().unwrap();
+		let nums = nums.split(" ").map(|t| {
+			t.parse::<usize>().unwrap()
+		}).collect();
+		can_equal(&nums, target, nums.len()).then_some(target)
+	}).sum::<usize>();
+	
+	let sum2 = INPUT.lines().filter_map(|line| {
+		let (target, nums) = line.split_once(": ")?;
+		let target = target.parse::<usize>().unwrap();
+		let nums = nums.split(" ").map(|t| {
+			t.parse::<usize>().unwrap()
+		}).collect();
+		can_equalb(&nums, target, nums.len()).then_some(target)
+	}).sum::<usize>();
+	
+	// didnt actually speed it up like at all lol maybe its just my pc
 	
 	let elapsed = now.elapsed();
     println!("Elapsed: {:.2?}", elapsed);
+	
+    println!("Part A: {}", sum);
+    println!("Part B: {}", sum2);
+	
+	
 }
 
 fn can_equal(nums: &Vec<usize>, res: usize, rem: usize) -> bool{
