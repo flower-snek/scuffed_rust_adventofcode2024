@@ -8,3 +8,4 @@ i am not planning on doing any deep studying of how rust works, and many of the 
 TODO LIST:
 - rewrite day 2 solution in rust
 - look into how exactly variable ownership works so i dont have "oops! all .clone()s!"
+- clean up day 12 augh
