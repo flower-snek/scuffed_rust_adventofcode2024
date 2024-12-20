@@ -161,16 +161,6 @@ fn partB(input: &str) -> u32 {
             }
         }
     }
-    /*
-    let mut delta_size = vec![];
-    for dx in -2..=2i32 {
-        for dy in -2..=2i32 {
-            if dx.abs() + dy.abs() == 2 {
-                delta_size.push((dx, dy));
-            }
-        }
-    }
-     */
     let mut sum = 0;
     let min_skip = 100;
     let skip_dist = 20;
